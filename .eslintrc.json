@@ -19,6 +19,7 @@
         "arrow-body-style": "off",
         "no-tabs": "off",
         "no-debugger": "off",
+        "no-console": "off",
         "no-use-before-define": 0,
         "max-len": [
             2,

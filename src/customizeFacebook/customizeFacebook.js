@@ -1,107 +1,46 @@
-// ==UserScript==
-// @name         fb fix
-// @namespace    http://tampermonkey.net/
-// @version      0.2
-// @description  try to take over the world!
-// @author       You
-// @domain         www.facebook.com
-// @include        http://www.facebook.com/*
-// @include        https://www.facebook.com/*
-// @run-at       document-start
-// @grant        none
-// ==/UserScript==
 
-const findByNameExplore = (array, name) => {
-	const findElem = array.filter(elem => {
-		if (elem.firstElementChild && elem.firstElementChild.childNodes) {
-			return Array.from(elem.firstElementChild.childNodes).pop().outerText === name;
-		}
-		return elem.innerHTML.contains(name);
-	});
-	return array.indexOf(findElem[0]);
-};
-
-const removeExplore = (exploreDom, listOfData) => {
-	if (!exploreDom) {
-		return;
-	}
-	RemoveFromExplore
-		.map(elem => findByNameExplore(listOfData, elem))
-		.filter(elem => elem !== -1)
-		.forEach(index => exploreDom.removeChild(listOfData[index]));
-};
-
-const getDomAndArrayExplore = () => {
-	const exploreDom = document.getElementById('appsNav');
-	return {
-		dom: exploreDom ? exploreDom.lastElementChild : null,
-		list: exploreDom ? Array.from(exploreDom.childNodes[1].childNodes) : []
-	};
-};
-
-const RemoveFromExplore = ['Friend Lists', 'Pokes', 'Games', 'On This Day', 'Suggest Edits', 'Find Friends',
-	'Games Feed', 'Offers', 'Create a Frame', 'Moments', 'Weather', 'Payment History', 'Recommendations', 'Safety Check',
-	'Friends', 'Live Video'
-];
-
-const clickOnSeeMoreButton = () => {
-	const seeMoreButton = document.getElementsByClassName('_y-c')[0];
+const clickOnSeeMoreButton = (leftSideBar) => {
+	const seeMoreButton = leftSideBar.getElementsByClassName('_y-c')[0];
 	if (seeMoreButton) {
 		seeMoreButton.parentNode.click();
 	}
 };
 
-const removeGames = () => {
-	const gamesDiv = document.getElementById('pagelet_canvas_nav_content');
-	if (gamesDiv) {
-		gamesDiv.parentNode.removeChild(gamesDiv);
-	}
-};
 
-const removeSuggestedFriend = () => {
-	const egoDiv = document.getElementById('pagelet_ego_pane');
-	if (!egoDiv) {
-		return;
-	}
 
-	const divWithText = egoDiv.getElementsByClassName('_3653')[0];
-	if (!divWithText || divWithText.outerText !== 'People You May Know') {
-		return;
-	}
+const workLoop = () => {
+	const fbDom = document;
+	const leftSideBar = fbDom.getElementById('leftCol') || document.createElement('div');
+	const fbFeed = fbDom.querySelectorAll('[role="feed]')[0] || document.createElement('div');
+	const suggestedBar = fbDom.getElementById('pagelet_ego_pane') || document.createElement('div');
+	const rightPanel = fbDom.getElementsByClassName('fbChatSidebar')[0] || document.createElement('div');
 
-	egoDiv.removeChild(divWithText.parentNode.parentNode.parentNode.parentNode.parentNode);
-};
+	const methods = new DeleteMethodList();
+	const calledFunction = {
+		clickOnSeeMoreButton: () => clickOnSeeMoreButton(leftSideBar),
+		removeGames: () => removeGames(),
+		removeExplore: () => methods.removeExplore(RemoveFromExplore)
+	};
 
-const removePopularAcrossFacebook = () => {
-	const postsToDelete = document.getElementsByClassName('fbUserPost');
-	Array.from(postsToDelete).forEach(elem => {
-		if (elem.firstElementChild &&
-				elem.firstElementChild.firstElementChild &&
-				elem.firstElementChild.firstElementChild.innerHTML.contains('Popular Across Facebook')) {
-			elem.parentNode.removeChild(elem);
+	Object.keys(calledFunction).forEach(key => {
+		try {
+			calledFunction[key]();
+		} catch (err) {
+			console.log(`error in: ${key}`);
+			console.log(`for more details: \n${err}`);
 		}
 	});
 };
+window.addEventListener('unload', () => workLoop());
+document.body.addEventListener('load', () => workLoop());
+document.body.addEventListener('DOMSubtreeModified', () => workLoop(), false);
 
-const run = () => {
-	const data = getDomAndArrayExplore();
-	if (!data.dom) {
-		setTimeout(() => run(), 50);
-	}
-	removeExplore(data.dom, data.list);
-	clickOnSeeMoreButton();
-	removeGames();
-	removeSuggestedFriend();
-	removePopularAcrossFacebook();
-};
 
-run();
-window.addEventListener('unload', () => run());
-document.body.addEventListener('load', () => run());
-document.body.addEventListener('DOMSubtreeModified', () => run(), false);
-// window.addEventListener('hashchange', () => run());
-// window.addEventListener('onpopstate', () => run());
-// window.addEventListener('popstate', () => run());
+
+
+
+
+
 
 
 

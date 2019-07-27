@@ -20,7 +20,7 @@
     "eslint": "^4.5.0",
     "eslint-config-airbnb-base": "^11.3.2",
     "google-translate-api": "^2.2.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.13",
     "mkdirp": "^0.5.1",
     "readline-sync": "^1.4.7",
     "request": "^2.81.0"

@@ -1,19 +1,19 @@
+/* eslint-disable no-tabs */
 import * as _ from 'lodash';
 
 const main = () => {
-	const range = _.range(100, 999);
-	const result = range.map(elem => {
-		const sum = (parseInt(elem.toString()[0], 10) + parseInt(elem.toString()[1], 10) + parseInt(elem.toString()[2], 10));
-		return sum * sum * sum === elem ? elem : null;
-	})
-		.filter(elem => elem !== null);
-	result.forEach(elem => console.log(elem));
+  const range = _.range(100, 999);
+  const result = range.map((elem) => {
+    const sum = (parseInt(elem.toString()[0], 10) + parseInt(elem.toString()[1], 10) + parseInt(elem.toString()[2], 10));
+    return sum * sum * sum === elem ? elem : null;
+  })
+    .filter(elem => elem !== null);
+  result.forEach(elem => console.log(elem));
 };
 
 // main();
 
-const countryNumber = () => {
-	return `
+const countryNumber = () => `
 Countryname	Region
 Afghanistan	Asia
 Albania	Europe
@@ -254,8 +254,7 @@ Yemen	Middle East
 Zambia	Africa
 Zimbabwe	Africa
 xk	Europe`.split('\n');
-};
 
 export default {
-	countryNumber
+  countryNumber,
 };

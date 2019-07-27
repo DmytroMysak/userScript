@@ -1,12 +1,12 @@
 // version 0.1
-'use strict';
+
 
 const ReadlineSync = require('readline-sync');
 const fs = require('fs');
 
 
 const count = (buy, sell, count) => {
-  const res = count*(sell - buy);
+  const res = count * (sell - buy);
   return `Profit: ${res}`;
 };
 

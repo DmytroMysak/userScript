@@ -1,48 +1,47 @@
 // version 0.1
 // TODO Можна вибирати ім'я чувака
 // TODO Можна вибирати мову з якої перекласти
-'use strict';
+
+
 const Translate = require('google-translate-api');
 const ReadlineSync = require('readline-sync');
 
-let state = {
+const state = {
   body: {
-    name: '', //TODO
+    name: '', // TODO
     language: 'ru-RU',
-    text: ''
-  }
+    text: '',
+  },
 };
 
 const httpPost = (body) => {
   const url = '192.168.0.60:3005/say';
   return new Promise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve(xhr.responseText);
       } else {
-        reject(`server off`);
+        reject('server off');
       }
     };
-    xhr.onerror = () => reject(`server off`);
+    xhr.onerror = () => reject('server off');
     xhr.send(body);
   });
 };
 const repeat = (count) => {
   count = parseInt(count, 10);
   if (typeof count !== 'number') error(`bad value after -r argument: ${count}`);
-  const text = state.body.text;
+  const { text } = state.body;
   for (let i = 1; i < count; ++i) {
-    state.body.text += ' ' + text;
+    state.body.text += ` ${text}`;
   }
 };
-const translate = (language) => {
-  return Translate(state.body.text, {to: language})
-      .then(res => state.body.text = res.text)
-      .catch(err => error(err));
-};
+const translate = language => Translate(state.body.text, { to: language })
+  .then(res => state.body.text = res.text)
+  .catch(err => error(err));
 const text = (text) => {
   state.body.text = text;
 };
@@ -80,4 +79,4 @@ for (let i = 0; i < args.length; ++i) {
   }
 }
 
-Promise.all(all).then(()=> httpPost(state.body).then((res) => console.log(res)));
+Promise.all(all).then(() => httpPost(state.body).then(res => console.log(res)));

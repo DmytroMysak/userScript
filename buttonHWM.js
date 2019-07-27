@@ -8,35 +8,35 @@
 // @grant        none
 // ==/UserScript==
 
-'use strict';
-const button = `<center><form style="display: inline;" action="recruit_event.php" method="post"><input type="hidden" name="sign" value="ecd53df53b4af2b3481851fe7505fc7d"><input type="hidden" name="act" value="start_search_after"><input type="submit" value="Бродить по подземелью"></form></center>`;
-const all = document.getElementsByTagName("font");
 
-const text = `Подземные пещеры`;
-const textElem = `<font color="black">Подземные пещеры</font>`;
+const button = '<center><form style="display: inline;" action="recruit_event.php" method="post"><input type="hidden" name="sign" value="ecd53df53b4af2b3481851fe7505fc7d"><input type="hidden" name="act" value="start_search_after"><input type="submit" value="Бродить по подземелью"></form></center>';
+const all = document.getElementsByTagName('font');
+
+const text = 'Подземные пещеры';
+const textElem = '<font color="black">Подземные пещеры</font>';
 
 const Clear = () => {
-    let id = window.setTimeout(function() {}, 0);
-    while (id--) {
-        window.clearTimeout(id);
-    }
-    // clearTimeout(Timer);
-    window.location='/recruit_event.php';
+  let id = window.setTimeout(() => {}, 0);
+  while (id--) {
+    window.clearTimeout(id);
+  }
+  // clearTimeout(Timer);
+  window.location = '/recruit_event.php';
 };
 for (let i = (all.length - 1); i >= 0; --i) {
-    if (all[i].innerText === text && all[i].parentNode.innerHTML === textElem) {
-        const elem = all[i].parentNode;
-        elem.innerHTML = button;
-        const btn = document.createElement("button");
-        btn.appendChild(document.createTextNode("MyButton"));
-        btn.onclick = Clear;
-        elem.appendChild(btn);
-        break;
-    }
+  if (all[i].innerText === text && all[i].parentNode.innerHTML === textElem) {
+    const elem = all[i].parentNode;
+    elem.innerHTML = button;
+    const btn = document.createElement('button');
+    btn.appendChild(document.createTextNode('MyButton'));
+    btn.onclick = Clear;
+    elem.appendChild(btn);
+    break;
+  }
 }
 
-const wait = document.getElementsByTagName("script");
-const oldFunc = `if (Delta <=0) window.location="/recruit_event.php"`;
+const wait = document.getElementsByTagName('script');
+const oldFunc = 'if (Delta <=0) window.location="/recruit_event.php"';
 
 const newFunc = `Delta=100;
 function Refresh()
@@ -47,8 +47,8 @@ function Refresh()
 Timer=setTimeout('Refresh()', 1000);`;
 
 for (let i = wait.length - 1; i >= 0; --i) {
-    if (wait[i].text.toString().indexOf(oldFunc) >= 0) {
-        wait[i].text = newFunc;
-        break;
-    }
+  if (wait[i].text.toString().indexOf(oldFunc) >= 0) {
+    wait[i].text = newFunc;
+    break;
+  }
 }

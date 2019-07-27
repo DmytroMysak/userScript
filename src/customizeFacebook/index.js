@@ -16,12 +16,12 @@ import fixRightPanel from './formatRightPanel';
 import fixSuggestedPanel from './formatSuggestedPages';
 
 const main = () => {
-	fixLeftPanel.removeExplore();
-	fixLeftPanel.alwaysFixLeftMenu();
-	fixHeader.alwaysFixHeader();
-	fixRightPanel.removeGames();
-	fixSuggestedPanel.removeSuggestedPanel();
-	fixSuggestedPanel.fixWidth();
+  fixLeftPanel.removeExplore();
+  fixLeftPanel.alwaysFixLeftMenu();
+  fixHeader.alwaysFixHeader();
+  fixRightPanel.removeGames();
+  fixSuggestedPanel.removeSuggestedPanel();
+  fixSuggestedPanel.fixWidth();
 };
 
 setTimeout(main, 0);

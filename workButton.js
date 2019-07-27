@@ -8,12 +8,12 @@
 // @grant        none
 // ==/UserScript==
 
-'use strict';
+
 const inputs = document.getElementsByTagName('input');
 const login = 'LOGIN';
 const passwd = 'passwd';
 
-inputs.forEach(elem => {
+inputs.forEach((elem) => {
   if (elem.type === 'password') elem.value = passwd;
-  else if (elem.name.contains('usr')) elem.value = login
+  else if (elem.name.contains('usr')) elem.value = login;
 });
